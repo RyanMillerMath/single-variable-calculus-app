@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+
+/*
+      The Sassy CSS this CSS file comes from is purely for illustrative purposes to show
+      knowledge of Sassy CSS. In a real React app, I'd add create a styles object for each styled 
+      component and style each component inline, as is recommended by Facebook for true component modularity.
+*/
+
 import "../styles/CalculusApp.css";
 
 function FormLabel() {
