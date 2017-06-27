@@ -1,0 +1,64 @@
+$font-stack: "lucida grande", serif;
+
+@mixin flexwrap($direction: false) {
+  display: flex;
+
+  @if $direction {
+    flex-flow: $direction;
+  }
+
+  justify-content: center;
+  align-content: center;
+}
+
+@mixin headings($size: false, $weight: false) {
+  @if $size {
+    font-size: $size;
+  }
+
+  @if $weight {
+    font-weight: $weight;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+}
+
+body {
+  @include flexwrap();
+  background-color: #6D8E9F;
+
+  > div {
+    @include flexwrap(column);
+  }
+}
+
+.result {
+  div {
+    @include flexwrap();
+  }
+}
+
+form {
+  @extend .result;
+  div {
+    margin-top: 10px;
+  }
+}
+
+.app {
+  font: 100% $font-stack;
+
+  h1 {
+    @include headings(2.5em, bold);
+  }
+}
+
+@import "buttons";
