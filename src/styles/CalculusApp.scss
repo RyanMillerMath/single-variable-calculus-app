@@ -4,6 +4,8 @@
       style each component inline, as is recommended by Facebook for true component modularity.
 */
 
+@import "reset";
+
 $font-stack: "lucida grande", serif;
 
 @mixin flexwrap($direction: false) {
@@ -25,16 +27,12 @@ $font-stack: "lucida grande", serif;
   @if $weight {
     font-weight: $weight;
   }
-}
-
-* {
-  box-sizing: border-box;
+  
+  margin: 1em 0;
 }
 
 html, body {
   min-height: 100vh;
-  min-width: 100vw;
-  margin: 0;
 }
 
 body {
@@ -46,17 +44,8 @@ body {
   }
 }
 
-.result {
-  div {
-    @include flexwrap();
-  }
-}
-
-form {
-  @extend .result;
-  div {
-    margin-top: 10px;
-  }
+.input-label {
+  margin-right: 0.4em;
 }
 
 .app {
@@ -64,6 +53,11 @@ form {
 
   h1 {
     @include headings(2.5em, bold);
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 0.75em;
   }
 }
 

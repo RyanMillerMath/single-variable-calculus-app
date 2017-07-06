@@ -1,3 +1,8 @@
+.button-group {
+  @include flexwrap();
+  margin: 1em 0;
+}
+
 .button {
   background-color: #10607B;
   margin: 0 auto;
@@ -5,14 +10,19 @@
   border: 0;
   border-radius: 5px;
   box-shadow: 7.5px 7.5px 5px #000;
+  cursor: pointer;
+
+  &:active, &:focus {
+    box-shadow: none;
+  }
 }
 
-.manipButton {
+.manip-button {
   @extend .button;
   color: #A78E87;
 }
 
-.calcButton {
+.calc-button {
   @extend .button;
   color: #C3A799;
 }
