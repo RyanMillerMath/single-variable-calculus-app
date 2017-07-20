@@ -9,7 +9,7 @@ export default function InputPrompt(props){
       <LabelledInput onChange={props.onChange} />
 
       <ButtonGroup values={["Differentiate", "Integrate"]}
-                   type="calc"
+                   operation="calc"
                    onClick={props.onClick} />
     </div>
   )

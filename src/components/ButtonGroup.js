@@ -6,7 +6,7 @@ export default function ButtonGroup(props) {
   var buttons = props.values.map((value, index) =>
                                 <Button value={value}
                                         key={index}
-                                        type={props.type}
+                                        operation={props.operation}
                                         onClick={props.onClick} />
                                 );
 

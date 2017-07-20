@@ -6,7 +6,7 @@ import ButtonGroup from "./ButtonGroup";
 
 /*
       The Sassy CSS this CSS file comes from is purely for illustrative purposes to show
-      knowledge of Sassy CSS. In a real React app, I'd add create a styles object for each styled 
+      knowledge of Sassy CSS. In a real React app, I'd just create a styles object for each styled 
       component and style each component inline, as is recommended by Facebook for true component modularity.
 */
 
@@ -18,7 +18,7 @@ function Result(props) {
       <p>The result of your operation is: <span>{props.result}</span></p>
 
       <ButtonGroup values={["Simplify", "Factor"]}
-                   type="manip"
+                   operation="manip"
                    onClick={props.onClick} />
     </div>
   );
@@ -62,52 +62,56 @@ export default class CalculusAppContainer extends Component {
     selectedElement.blur();
 
     let operation = selectedElement.textContent.toLowerCase(),
-        expression = selectedElement.dataset.type === "calc" ? this.state.expression : this.state.result;
+        expression = selectedElement.dataset.operation === "calc" ? this.state.expression : this.state.result;
 
-    if(operation === "differentiate") {
+    if(selectedElement.dataset.operation === "calc" && expression === "") {
+      alert("You must type in an algebraic expression to evaluate.");
+      return;
+    } else if(selectedElement.dataset.operation === "manip" && expression === "") {
+      alert("There is no result to simplify or factor.");
+      return;
+    }
+
+    if(operation === "differentiate") {     //api (incorrectly) uses the term derive instead of differentiate
       operation = "derive";
     }
 
     expression = expression.replace(/\//, "%2F");   //switch slash with url encoding to be able to use expressions with fractions
 
     this.handleRequest(operation, expression);
-  } 
+  }
 
   handleRequest(operation, expression) {
     axios.get("https://newton.now.sh/" + operation + "/" + expression)
          .then(
-            response => this.successHandler(response)
+            response => this.handleSuccess(response)
           )
          .catch(
-            error => this.errorHandler(error, expression)
+            error => this.handleError(error, expression)
           );
   }
 
-  successHandler(response) {
+  handleSuccess(response) {
     this.setState({
       result: response.data.result
     });
   }
 
-  errorHandler(error, expression) {
+  handleError(error, expression) {
     let errorMsg = "";
 
-    if(expression === "") {                                 //strictly check for empty string instead of !expression to allow 0
-      errorMsg = "Please type in an algebraic expression.";
-    } else {
-      switch(error.response.status) {
-        case 0:
-          errorMsg = "You did not connect.\n Verify your connection to the Internet.";
-          break;
-        case 404:
-          errorMsg = "Requested page not found. [404]";
-          break;
-        case 500:
-          errorMsg = "Internal Server Error [500].";
-          break;
-        default:
-          errorMsg = "Unexpected error.\n" + JSON.stringify(error.response.status);
-      }
+    switch(error.response.status) {
+      case 0:
+        errorMsg = "You did not connect.\n Verify your connection to the Internet.";
+        break;
+      case 404:
+        errorMsg = "Requested page not found. [404]";
+        break;
+      case 500:
+        errorMsg = "Internal Server Error [500].";
+        break;
+      default:
+        errorMsg = "Unexpected error.\n" + JSON.stringify(error.response.status);
     }
 
     alert(errorMsg);

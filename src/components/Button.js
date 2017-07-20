@@ -3,13 +3,13 @@ import React from "react";
 export default function Button(props) {
   let className = "button";
 
-  if(props.type) {
-    className += " " + props.type + "-button";
+  if(props.operation) {
+    className += " " + props.operation + "-button";
   }
 
   return(
     <button className={className}
-            data-type={props.type}
+            data-operation={props.operation}
             onClick={props.onClick}>
 
       {props.value}
